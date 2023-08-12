@@ -5,7 +5,7 @@ import ru.megboyzz.domain.eitities.AppInfo
 import ru.megboyzz.domain.repositories.ADBRepository
 
 class InstallAppUseCase(
-    private val verifyADBDevicesUseCase: UpdateADBDevicesUseCase,
+    private val verifyADBDevicesUseCase: UpdateAdbDevicesUseCase,
     private val adbRepository: ADBRepository
 ) {
 

@@ -23,8 +23,11 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation(project(mapOf("path" to ":domain")))
-                implementation(project(mapOf("path" to ":data")))
+                implementation(project(mapOf("path" to ":domain", "configuration" to "default")))
+                implementation(project(mapOf("path" to ":data", "configuration" to "default")))
+
+                implementation("cafe.adriel.voyager:voyager-transitions:1.0.0-rc05")
+                implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-rc05")
             }
         }
         val jvmTest by getting
@@ -38,6 +41,13 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "ADBInstaller"
             packageVersion = "1.0.0"
+
+            appResourcesRootDir.set(
+                project
+                    .layout
+                    .projectDirectory
+                    .dir("src/jvmMain/resources")
+            )
         }
     }
 }

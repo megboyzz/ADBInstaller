@@ -4,6 +4,6 @@ import ru.megboyzz.domain.eitities.AppInfo
 
 interface AppInfoRepository {
 
-    fun getInfoAboutApp(pathToApk: String): AppInfo
+    fun getInfoAboutApp(pathToApk: String): AppInfo?
 
 }

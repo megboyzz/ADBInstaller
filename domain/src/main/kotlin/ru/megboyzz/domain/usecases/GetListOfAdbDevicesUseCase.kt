@@ -3,7 +3,7 @@ package ru.megboyzz.domain.usecases
 import ru.megboyzz.domain.eitities.ADBDevice
 import ru.megboyzz.domain.repositories.ADBRepository
 
-class GetListOfADBDevicesUseCase(
+class GetListOfAdbDevicesUseCase(
     private val adbRepository: ADBRepository
 ) {
 

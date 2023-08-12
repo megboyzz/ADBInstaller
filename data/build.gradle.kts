@@ -1,5 +1,7 @@
 plugins {
+    kotlin("kapt")
     kotlin("jvm")
+    application
 }
 
 group = "ru.megboyzz.adb.app"
@@ -10,7 +12,11 @@ repositories {
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":domain")))
+    implementation(project(mapOf("path" to ":domain", "configuration" to "default")))
+
+    kapt("com.google.dagger:dagger-compiler:2.47")
+    implementation("com.google.dagger:dagger:2.47")
+    implementation("com.google.guava:guava-base:r03")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
