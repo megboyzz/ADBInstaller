@@ -1,17 +1,17 @@
 package ru.megboyzz.data.repositories
 
 import ru.megboyzz.data.core.cmd.exec
-import ru.megboyzz.domain.eitities.ADBDevice
-import ru.megboyzz.domain.eitities.ADBDeviceStatus
+import ru.megboyzz.domain.eitities.AdbDevice
+import ru.megboyzz.domain.eitities.AdbDeviceStatus
 import ru.megboyzz.domain.eitities.AppInfo
 import ru.megboyzz.domain.repositories.ADBRepository
 
 class AdbRepositoryImpl(private val pathToAdb:String) : ADBRepository {
 
     private val listStart = "List of devices attached"
-    override fun getListOfADBDevices(): List<ADBDevice> {
+    override fun getListOfADBDevices(): List<AdbDevice> {
 
-        val list = mutableListOf<ADBDevice>()
+        val list = mutableListOf<AdbDevice>()
 
         val out = exec(pathToAdb, "devices")
             .split(listStart)[1]
@@ -20,9 +20,9 @@ class AdbRepositoryImpl(private val pathToAdb:String) : ADBRepository {
         for(adbStr in out){
             if(adbStr.length > 1) {
                 val device = adbStr.replace("\r", "").split("\t")
-                val adbDevice = ADBDevice(
+                val adbDevice = AdbDevice(
                     name = device[0],
-                    status = ADBDeviceStatus.strAsAdbDeviceStatus(device[1])
+                    status = AdbDeviceStatus.strAsAdbDeviceStatus(device[1])
                 )
                 list += adbDevice
             }
@@ -32,12 +32,12 @@ class AdbRepositoryImpl(private val pathToAdb:String) : ADBRepository {
 
     }
 
-    override fun installApplication(appInfo: AppInfo, adbDevice: ADBDevice): Boolean {
+    override fun installApplication(appInfo: AppInfo, adbDevice: AdbDevice): Boolean {
 
         val listOfADBDevices = getListOfADBDevices()
         val adbDeviceCheck = listOfADBDevices.find { it.name == adbDevice.name }
 
-        if(adbDeviceCheck != null && adbDeviceCheck.status == ADBDeviceStatus.DEVICE){
+        if(adbDeviceCheck != null && adbDeviceCheck.status == AdbDeviceStatus.DEVICE){
 
             val exec = exec(pathToAdb, "-s", adbDevice.name, "install", appInfo.pathToApk)
             return exec.contains("Success")

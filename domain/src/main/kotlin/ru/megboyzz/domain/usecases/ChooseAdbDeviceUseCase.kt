@@ -1,12 +1,12 @@
 package ru.megboyzz.domain.usecases
 
-import ru.megboyzz.domain.eitities.ADBDevice
+import ru.megboyzz.domain.eitities.AdbDevice
 
 class ChooseAdbDeviceUseCase(
     val updateADBDevicesUseCase: UpdateAdbDevicesUseCase
 ) {
 
-    operator fun invoke(adbDevice: ADBDevice): ADBDevice? =
+    operator fun invoke(adbDevice: AdbDevice): AdbDevice? =
         if(updateADBDevicesUseCase(adbDevice))
             adbDevice
         else

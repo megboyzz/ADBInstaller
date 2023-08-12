@@ -2,7 +2,7 @@ package ru.megboyzz.domain.eitities
 
 import java.util.*
 
-enum class ADBDeviceStatus {
+enum class AdbDeviceStatus {
     OFFLINE,
     DEVICE,
     RECOVERY,
@@ -20,11 +20,11 @@ enum class ADBDeviceStatus {
 
     companion object{
 
-        fun strAsAdbDeviceStatus(string: String): ADBDeviceStatus{
+        fun strAsAdbDeviceStatus(string: String): AdbDeviceStatus{
 
             val str = string.uppercase().replace(" ", "_")
 
-            val values = ADBDeviceStatus.values()
+            val values = AdbDeviceStatus.values()
             values.forEach {
                 if(str == it.name) return it
             }

@@ -1,6 +1,6 @@
 package ru.megboyzz.domain.eitities
 
-data class ADBDevice(
+data class AdbDevice(
     val name: String,
-    val status: ADBDeviceStatus
+    val status: AdbDeviceStatus
 )
