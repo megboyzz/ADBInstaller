@@ -6,15 +6,15 @@ import androidx.compose.ui.unit.sp
 
 val H1 = TextStyle(
     fontSize = 12.sp,
-    fontWeight = FontWeight.W400,
+    fontWeight = FontWeight.W500,
 )
 
 val H2 = TextStyle(
     fontSize = 10.sp,
-    fontWeight = FontWeight.W400,
+    fontWeight = FontWeight.W500,
 )
 
 val H3 = TextStyle(
     fontSize = 8.sp,
-    fontWeight = FontWeight.W400,
+    fontWeight = FontWeight.W500,
 )
