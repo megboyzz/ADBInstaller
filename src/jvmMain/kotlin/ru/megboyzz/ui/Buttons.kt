@@ -1,21 +1,24 @@
 package ru.megboyzz.ui
 
-import androidx.compose.foundation.Indication
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import ru.megboyzz.domain.eitities.AdbDevice
+import ru.megboyzz.domain.eitities.AdbDeviceStatus
 import ru.megboyzz.rememberSvg
 import ru.megboyzz.theme.H1
 import ru.megboyzz.theme.accent
+import ru.megboyzz.theme.subAccent
 import ru.megboyzz.theme.white
 
 @Composable
@@ -48,7 +51,7 @@ fun InstallButton(
 
 @Composable
 fun DropdownMenu(
-    visibleItem: AdbDevice,
+    visibleItemIndex: Int = 0,
     items: List<AdbDevice>,
     onSelect: (AdbDevice) -> Unit
 ) {
@@ -58,32 +61,92 @@ fun DropdownMenu(
 
     var expanded by remember { mutableStateOf(false) }
 
-    Card(
-        elevation = 4.dp,
-        backgroundColor = accent,
-        shape = RoundedCornerShape(10.dp, 10.dp, 10.dp, 10.dp),
-        modifier = Modifier.size(260.dp, if(expanded) 70.dp else 35.dp)
-    ) {
-        Row(
-            modifier = Modifier.padding(10.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+    val defaultCorner = 10.dp
+    val noDevices = items.isEmpty()
 
-            Text(
-                text = visibleItem.name,
-                style = H1,
-                color = white
-            )
+    val shape = RoundedCornerShape(
+        topStart = defaultCorner,
+        topEnd = defaultCorner,
+        bottomStart = if (expanded) 0.dp else defaultCorner,
+        bottomEnd = if (expanded) 0.dp else defaultCorner
+    )
 
-            Icon(
-                painter = if(expanded) arrowExpanded else arrow,
-                tint = white,
-                contentDescription = null
-            )
+    Box(
+        modifier = Modifier.size(260.dp, 130.dp)
+    ){
+        Column {
+            Card(
+                elevation = 4.dp,
+                backgroundColor = accent,
+                shape = shape,
+                modifier = Modifier
+                    .size(260.dp, 35.dp)
+                    .clip(shape)
+                    .clickable(enabled = !noDevices) { expanded = !expanded }
+            ) {
 
+                Row(
+                    modifier = Modifier.padding(10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Text(
+                        text = if (noDevices) "Нет устройств" else items[visibleItemIndex].name,
+                        style = H1,
+                        color = white
+                    )
+
+                    Icon(
+                        painter = if (expanded) arrowExpanded else arrow,
+                        tint = if(noDevices) Color.Gray else white,
+                        contentDescription = null
+                    )
+
+                }
+
+            }
+            if (expanded) {
+                Card(
+                    elevation = 4.dp,
+                    backgroundColor = subAccent,
+                    shape = RoundedCornerShape(
+                        topStart = 0.dp,
+                        topEnd = 0.dp,
+                        bottomEnd = defaultCorner,
+                        bottomStart = defaultCorner
+                    )
+                ) {
+                    Column(
+                        Modifier.scrollable(
+                            state = rememberScrollState(),
+                            orientation = Orientation.Horizontal
+                            )
+                    ) {
+                        items.forEachIndexed { index, adbDevice ->
+                            if(adbDevice.status == AdbDeviceStatus.DEVICE)
+                            DropdownMenuItem(
+                                modifier = Modifier.height(35.dp),
+                                onClick = {
+                                    onSelect(adbDevice)
+                                    expanded = !expanded
+                                }
+                            ) {
+                                Text(
+                                    text = "${index + 1}. ${adbDevice.name}",
+                                    style = H1,
+                                    color = white
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
 
     }
 
 }
+
+
+
