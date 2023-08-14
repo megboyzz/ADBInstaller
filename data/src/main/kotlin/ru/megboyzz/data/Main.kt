@@ -2,15 +2,12 @@ package ru.megboyzz.data
 
 import net.dongliu.apk.parser.ApkFile
 
-fun main(){
 
-    val apkFile = ApkFile("D:\\Projects\\AndroidStudioProjects\\MyDnevnik\\app\\release\\app-release.apk")
+fun main(arg: Array<String>){
 
-    val metaInfo = apkFile.apkMeta
+    val apkFile = ApkFile("C:\\Users\\ikits\\Downloads\\com.android.systemui_10-29_minAPI29(nodpi)_apkmirror.com.apk")
 
-    println(apkFile.transBinaryXml(metaInfo.icon))
-
-    print(metaInfo)
+    println(apkFile.apkMeta)
 
 
 }

@@ -1,19 +1,16 @@
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberWindowState
 import cafe.adriel.voyager.navigator.Navigator
-import com.sun.tools.javac.Main
 import ru.megboyzz.ui.MainScreen
 import ru.megboyzz.ui.MainWindow
 
 
-fun main() = application {
+fun main(arg: Array<String>) = application {
+
+    val arg1 = "C:\\Users\\ikits\\Downloads\\com.android.systemui_10-29_minAPI29(nodpi)_apkmirror.com.apk"
 
     MainWindow(
         ::exitApplication
     ){
-        Navigator(MainScreen())
+        Navigator(MainScreen(arg1))
     }
 }

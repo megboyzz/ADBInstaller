@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import jdk.jfr.Enabled
 import ru.megboyzz.domain.eitities.AdbDevice
 import ru.megboyzz.domain.eitities.AdbDeviceStatus
 import ru.megboyzz.rememberSvg
@@ -22,10 +23,12 @@ import ru.megboyzz.theme.subAccent
 import ru.megboyzz.theme.white
 
 @Composable
-fun InstallButton(
+fun InstallAppButton(
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     Button(
+        enabled = enabled,
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = accent
@@ -53,7 +56,7 @@ fun InstallButton(
 fun DropdownMenu(
     visibleItemIndex: Int = 0,
     items: List<AdbDevice>,
-    onSelect: (AdbDevice) -> Unit
+    onSelect: (adbDeviceIndex: Int) -> Unit
 ) {
 
     val arrow = rememberSvg("common/images/arrow.svg")
@@ -128,7 +131,7 @@ fun DropdownMenu(
                             DropdownMenuItem(
                                 modifier = Modifier.height(35.dp),
                                 onClick = {
-                                    onSelect(adbDevice)
+                                    onSelect(index)
                                     expanded = !expanded
                                 }
                             ) {

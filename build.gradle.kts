@@ -26,6 +26,7 @@ kotlin {
                 implementation(project(mapOf("path" to ":domain", "configuration" to "default")))
                 implementation(project(mapOf("path" to ":data", "configuration" to "default")))
 
+                implementation("com.google.code.findbugs:jsr305:3.0.2")
                 implementation("cafe.adriel.voyager:voyager-transitions-desktop:1.0.0-rc06")
                 implementation("cafe.adriel.voyager:voyager-navigator-desktop:1.0.0-rc06")
                 implementation("cafe.adriel.voyager:voyager-core-desktop:1.0.0-rc06")
