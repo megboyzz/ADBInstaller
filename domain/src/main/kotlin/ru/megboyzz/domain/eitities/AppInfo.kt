@@ -8,6 +8,6 @@ data class AppInfo(
     //Это путь внутри APK
     val imagePath: String,
     val imageContent: InputStream,
-    val version: String,
+    val version: String?,
     val pathToApk: String
 )

@@ -32,6 +32,12 @@ class MainScreenModel: ScreenModel {
 
     val isInstalling = MutableStateFlow(false)
 
+    val isConnecting = MutableStateFlow(false)
+
+    val isErrorConnecting = MutableStateFlow(false)
+
+    val connectingMessage = MutableStateFlow("")
+
     val isError = MutableStateFlow(false)
 
     val isApkInfoLoading = MutableStateFlow(false)
@@ -52,6 +58,23 @@ class MainScreenModel: ScreenModel {
 
     }
 
+    fun connectTo(adbDeviceName: String) = coroutineScope.launch(Dispatchers.IO) {
+
+        //Сброс
+        isErrorConnecting.emit(false)
+        connectingMessage.emit("")
+
+        isConnecting.emit(true)
+        val adbDevice = useCaseComponent.connectToNewAdbDeviceUseCase(adbDeviceName)
+        if(adbDevice == null) {
+            isErrorConnecting.emit(true)
+            connectingMessage.emit("Ошибка подключения к $adbDeviceName")
+        }else
+            connectingMessage.emit("Успешно подключено к $adbDeviceName")
+
+        isConnecting.emit(false)
+    }
+
     fun openApp(pathToApp: String) = coroutineScope.launch(Dispatchers.IO) {
             isApkInfoLoading.emit(true)
             appInfo.emit(useCaseComponent.openAppUseCase(pathToApp))
@@ -68,6 +91,8 @@ class MainScreenModel: ScreenModel {
 
     fun installApp(adbDevice: AdbDevice) = coroutineScope.launch(Dispatchers.IO) {
 
+        isError.emit(false)
+
         isInstalling.emit(true)
 
         if (!useCaseComponent.updateAdbDevicesUseCase(adbDevice)) {
@@ -78,12 +103,19 @@ class MainScreenModel: ScreenModel {
 
         updateDevices()
 
-        if(appInfo.value != null)
-            useCaseComponent.installAppUseCase(appInfo.value!!, adbDevice)
-        else
+        if(appInfo.value != null) {
+
+            val isInstallSuccess = useCaseComponent.installAppUseCase(appInfo.value!!, adbDevice)
+
+            if(isInstallSuccess)
+                installStatus.emit("Успешно установлено на ${adbDevice.name}")
+            else {
+                isError.emit(true)
+                installStatus.emit("Ошибка установки")
+            }
+        }else
             installStatus.emit("Ошибка установки")
 
-        installStatus.emit("Успешно установлено на ${adbDevice.name}")
 
         isInstalling.emit(false)
 

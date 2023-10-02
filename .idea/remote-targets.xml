@@ -11,7 +11,7 @@
         </ContributedStateBase>
         <ContributedStateBase type="JavaLanguageRuntime">
           <config>
-            <option name="homePath" value="/mnt/c/Users/ikits/.jdks/openjdk-19.0.2" />
+            <option name="homePath" value="/usr" />
           </config>
         </ContributedStateBase>
         <ContributedStateBase type="GradleRuntime">

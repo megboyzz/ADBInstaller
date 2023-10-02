@@ -9,6 +9,9 @@ import ru.megboyzz.domain.repositories.ADBRepository
 class AdbRepositoryImpl(private val pathToAdb:String) : ADBRepository {
 
     private val listStart = "List of devices attached"
+
+    //private fun parseAdbDevices
+
     override fun getListOfADBDevices(): List<AdbDevice> {
 
         val list = mutableListOf<AdbDevice>()
@@ -32,17 +35,23 @@ class AdbRepositoryImpl(private val pathToAdb:String) : ADBRepository {
 
     }
 
+    override fun connectToNewAdbDevice(name: String): AdbDevice? {
+        exec(pathToAdb, "connect", name)
+        val listOfADBDevices = getListOfADBDevices()
+        return listOfADBDevices.find { it.name == name }
+    }
+
     override fun installApplication(appInfo: AppInfo, adbDevice: AdbDevice): Boolean {
 
         val listOfADBDevices = getListOfADBDevices()
         val adbDeviceCheck = listOfADBDevices.find { it.name == adbDevice.name }
 
-        if(adbDeviceCheck != null && adbDeviceCheck.status == AdbDeviceStatus.DEVICE){
+        return if(adbDeviceCheck != null && adbDeviceCheck.status == AdbDeviceStatus.DEVICE) {
 
             val exec = exec(pathToAdb, "-s", adbDevice.name, "install", appInfo.pathToApk)
-            return exec.contains("Success")
+            exec.contains("Success")
 
-        }else return false
+        }else false
 
     }
 }

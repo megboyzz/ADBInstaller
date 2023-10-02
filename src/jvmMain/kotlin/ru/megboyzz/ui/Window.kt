@@ -15,6 +15,7 @@ fun MainWindow(
 
     Window(
         onCloseRequest = exitApplication,
+        title = "ADBInstaller",
         resizable = false,
         state = rememberWindowState(
             size = DpSize(300.dp, 260.dp)

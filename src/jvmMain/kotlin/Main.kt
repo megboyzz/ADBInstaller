@@ -6,11 +6,13 @@ import ru.megboyzz.ui.MainWindow
 
 fun main(arg: Array<String>) = application {
 
-    val arg1 = "C:\\Users\\ikits\\Downloads\\com.android.systemui_10-29_minAPI29(nodpi)_apkmirror.com.apk"
+    val arg1 = "D:\\Projects\\AndroidStudioProjects\\MyDnevnik\\app\\release\\app-release.apk"
+
+    println(if(arg.isNotEmpty()) arg[0] else "")
 
     MainWindow(
         ::exitApplication
     ){
-        Navigator(MainScreen(arg1))
+        Navigator(MainScreen( if(arg.isNotEmpty()) arg[0] else arg1))
     }
 }

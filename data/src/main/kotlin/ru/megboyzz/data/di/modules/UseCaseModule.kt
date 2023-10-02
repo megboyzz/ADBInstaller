@@ -44,4 +44,12 @@ class UseCaseModule {
     ): InstallAppUseCase
         = InstallAppUseCase(verifyADBDevicesUseCase, adbRepository)
 
+
+    @Provides
+    fun providesConnectToNewAdbDeviceUseCase(
+        adbRepository: ADBRepository,
+        updateAdbDevicesUseCase: UpdateAdbDevicesUseCase
+    ): ConnectToNewAdbDeviceUseCase =
+        ConnectToNewAdbDeviceUseCase(adbRepository, updateAdbDevicesUseCase)
+
 }

@@ -20,6 +20,8 @@ interface UseCaseComponent {
 
     val updateAdbDevicesUseCase: UpdateAdbDevicesUseCase
 
+    val connectToNewAdbDeviceUseCase: ConnectToNewAdbDeviceUseCase
+
     @Component.Builder
     interface Builder {
         fun repositoryModule(
